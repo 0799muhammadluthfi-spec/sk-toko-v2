@@ -191,4 +191,31 @@ def load_data(conn_obj, worksheet=WS_SK):
     try:
         df = conn_obj.read(worksheet=worksheet, ttl=60)
 
-        if 
+        if df is None or df.empty:
+            return get_empty_df()
+
+        df = df.astype(str).replace(r"\.0$", "", regex=True)
+        for col in df.columns:
+            df[col] = df[col].str.strip()
+        df = df.replace(["nan", "None", "", "null", "NaN", "<NA>"], "-")
+
+        df = pastikan_kolom(df, KOLOM_SK)
+        return df
+
+    except Exception as e:
+        st.error(f"Gagal membaca data: {e}")
+        return get_empty_df()
+
+def safe_update(conn_obj, data, worksheet=WS_SK):
+    try:
+        conn_obj.update(worksheet=worksheet, data=data)
+        st.cache_data.clear()
+        return True
+    except Exception as e:
+        st.error(f"Gagal menyimpan: {e}")
+        return False
+
+def tombol_refresh(key_btn):
+    if st.button("🔄 Refresh", key=key_btn, use_container_width=True):
+        st.cache_data.clear()
+        st.rerun()
