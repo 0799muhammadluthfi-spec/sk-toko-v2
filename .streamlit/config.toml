@@ -1,0 +1,24 @@
+# ==========================================
+# STREAMLIT CONFIG — SK TOKO V2
+# ==========================================
+
+[theme]
+base                       = "light"
+primaryColor               = "#3b82f6"
+backgroundColor            = "#ffffff"
+secondaryBackgroundColor   = "#f1f5f9"
+textColor                  = "#0f172a"
+font                       = "sans serif"
+
+[client]
+showSidebarNavigation = false
+toolbarMode           = "minimal"
+
+[server]
+runOnSave        = true
+maxUploadSize    = 200
+enableCORS       = false
+enableXsrfProtection = false
+
+[browser]
+gatherUsageStats = false
